@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
@@ -39,8 +40,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded-2xl shadow-xl bg-white">
-      <h2 className="text-2xl font-bold mb-6">Signup</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl bg-white dark:bg-gray-900">
+      <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Signup</h2>
 
       {step === 'signup' ? (
         <form onSubmit={handleSignup} className="space-y-4">
@@ -68,7 +69,7 @@ const Signup = () => {
         </form>
       ) : (
         <div className="space-y-6">
-          <p className="text-gray-600">Enter the OTP sent to your email</p>
+          <p className="text-gray-600 dark:text-gray-300">Enter the OTP sent to your email</p>
 
           <InputOTP maxLength={6} value={otp} onChange={setOtp} className="mx-auto">
             <InputOTPGroup>
@@ -81,6 +82,12 @@ const Signup = () => {
           <Button onClick={handleVerifyOtp} className="w-full">Verify OTP</Button>
         </div>
       )}
+
+      {/* Already have an account link */}
+      <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+        Already have an account?{' '}
+        <Link href="/login" className="text-blue-600 dark:text-blue-400 hover:underline">Login</Link>
+      </p>
     </div>
   );
 };

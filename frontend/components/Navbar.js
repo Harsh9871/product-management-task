@@ -48,7 +48,7 @@ const Navbar = () => {
 
         {/* Auth Buttons */}
         {token === null ? (
-          <span>Loading...</span>
+          <span></span>
         ) : token ? (
           <Button variant="destructive" onClick={handleLogout}>Logout</Button>
         ) : (

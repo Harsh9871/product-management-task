@@ -17,11 +17,16 @@ const EditProductPage = () => {
   });
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const checkAuthAndFetch = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        router.push('/login');
+        return;
+      }
+
       try {
         const res = await getProducts();
-         // Assuming getProducts fetches all
-        const existingProduct = res.data.products.find((p) => p._id === id); // Adjust based on your product ID key
+        const existingProduct = res.data.products.find((p) => p._id === id);
         if (existingProduct) {
           setProduct(existingProduct);
         } else {
@@ -34,7 +39,7 @@ const EditProductPage = () => {
       }
     };
 
-    if (id) fetchProduct();
+    if (id) checkAuthAndFetch();
   }, [id, router]);
 
   const handleChange = (e) => {
@@ -47,12 +52,12 @@ const EditProductPage = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       alert('Please login to update the product.');
+      router.push('/login');
       return;
     }
 
     try {
       const res = await updateProduct(id, product, token);
-
       if (res.status === 200) {
         alert('Product updated successfully!');
         router.push('/');
@@ -66,7 +71,7 @@ const EditProductPage = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-background text-foreground shadow rounded-lg mt-10">
+    <div className="max-w-xl mx-auto p-6 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 shadow rounded-lg mt-10">
       <h1 className="text-2xl font-bold mb-6">Edit Product</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -78,7 +83,7 @@ const EditProductPage = () => {
             value={product.name}
             onChange={handleChange}
             required
-            className="w-full p-2 border rounded bg-transparent"
+            className="w-full p-3 border rounded bg-gray-50 dark:bg-gray-800 dark:text-gray-100"
           />
         </div>
 
@@ -90,7 +95,7 @@ const EditProductPage = () => {
             value={product.price}
             onChange={handleChange}
             required
-            className="w-full p-2 border rounded bg-transparent"
+            className="w-full p-3 border rounded bg-gray-50 dark:bg-gray-800 dark:text-gray-100"
           />
         </div>
 
@@ -101,7 +106,7 @@ const EditProductPage = () => {
             value={product.description}
             onChange={handleChange}
             required
-            className="w-full p-2 border rounded bg-transparent"
+            className="w-full p-3 border rounded bg-gray-50 dark:bg-gray-800 dark:text-gray-100"
           />
         </div>
 
@@ -113,11 +118,11 @@ const EditProductPage = () => {
             value={product.category}
             onChange={handleChange}
             required
-            className="w-full p-2 border rounded bg-transparent"
+            className="w-full p-3 border rounded bg-gray-50 dark:bg-gray-800 dark:text-gray-100"
           />
         </div>
 
-        <Button type="submit">Update Product</Button>
+        <Button type="submit" className="w-full">Update Product</Button>
       </form>
     </div>
   );
